@@ -1,0 +1,7 @@
+.element {
+	opacity:0;
+}
+
+.element.visible {
+	transition: opacity 1s ease-in-out;
+}
