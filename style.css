@@ -1,7 +1,45 @@
-.element {
-	opacity:0;
+@font-face {
+			font-family: "saveTheDate";
+			src: url('./static/font/Autography.otf');
+}
+.figure {
+	margin-left: auto;
+	margin-right: auto;
+	width: 50vw;
+}
+.figure img.main.image-hover {
+	position: absolute;
+	right: 0;
+	left: 0;
+	margin-left: auto;
+	margin-right: auto;
+	object-fit: contain;
+	opacity: 0;
+	transition: opacity .2s;
+}
+.figure:hover img.main.image-hover {
+	opacity: 1;
+}
+.content-main {
+	border-color: pink; 
+	border-style: solid;
+	border-width: 15px; 
+	border-radius:20px; 
+	text-align: center; 
+	width:40%; 
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: calc(60px + 1vw)
 }
 
-.element.visible {
-	transition: opacity 1s ease-in-out;
+.save-the-date {
+	font-family: "saveTheDate";
+}
+.title-text {
+	font-size: calc(60px + 2vw);
+}
+.subtitle-text {
+	margin-left: auto;
+	margin-right: auto;
+	font-size: calc(40px + 2vw);
 }
