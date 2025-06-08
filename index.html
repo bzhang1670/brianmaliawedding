@@ -30,7 +30,7 @@
       height: 100%;
       width: 100%;
       background-color: #e7d1ff;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       flex-direction: column;
@@ -148,7 +148,7 @@
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css" onerror="loadCssFromCDN('font-awesome.css')">
     <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
-<div id="passwordModal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #e7d1ff; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow: hidden;">
+<div id="passwordModal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #e7d1ff; z-index: 1000; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow: hidden;">
     <img src="/img/lilo_flowers.gif" style="max-width: 100%; height: auto; margin-bottom: 20px;"/> 
     <h2 style="padding-left:10px; padding-right:10px; text-align: center;">Enter password to continue :)</h2>
     <input type="password" id="passwordInput" placeholder="Password" style="margin: 20px 0;">
@@ -468,6 +468,8 @@
             let inputPasswordHash = getCookie("malia-brian-hash");
             if (inputPasswordHash === passwordHash) {
                 modal.style.display = 'none';
+            } else {
+                modal.style.display = 'flex';
             }
         });
 
@@ -531,6 +533,7 @@
 
     // Add event listener for password modal
     document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('passwordModal');
         if (modal && modal.style.display !== 'none') {
             preventScroll();
             
