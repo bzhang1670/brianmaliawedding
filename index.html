@@ -147,12 +147,12 @@
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css" onerror="loadCssFromCDN('font-awesome.css')">
     <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
-<div id="passwordModal">
-    <img src="/img/lilo_flowers.gif"/> 
-  <h2 style="padding-left:10px; padding-right:10px;">Enter password to continue :)</h2>
-  <input type="password" id="passwordInput" placeholder="Password">
-  <button id="submitBtn" class="btn btn-accent btn-large rsvp-btn">Submit</button>
-  <div id="errorMsg">Incorrect password. Try again.</div>
+<div id="passwordModal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #e7d1ff; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
+    <img src="/img/lilo_flowers.gif" style="max-width: 100%; height: auto; margin-bottom: 20px;"/> 
+    <h2 style="padding-left:10px; padding-right:10px; text-align: center;">Enter password to continue :)</h2>
+    <input type="password" id="passwordInput" placeholder="Password" style="margin: 20px 0;">
+    <button id="submitBtn" class="btn btn-accent btn-large rsvp-btn">Submit</button>
+    <div id="errorMsg" style="margin-top: 10px; color: red; display: none;">Incorrect password. Try again.</div>
 </div>
 <body id="top">
 <!--[if lt IE 8]>
