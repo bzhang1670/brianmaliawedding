@@ -1,20 +1,517 @@
 <!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-<link rel="stylesheet" href="style.css" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Malia & Brian's Wedding!</title>
+    <meta name="description" content="We would like to invite you to our big day.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:title" content="Malia & Brian are getting married">
+    <meta property="og:description" content="We would like to invite you to our big day.">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/png" href="oz.png">
+    <link rel="manifest" href="manifest.json">
+    <style>
+/* Fullscreen modal overlay */
+    #passwordModal {
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: #e7d1ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+    }
+
+    #map-img {
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #map-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    #passwordInput {
+      padding: 10px;
+      font-size: 18px;
+      margin-top: 10px;
+      color: black;
+    }
+
+    #submitBtn {
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    #errorMsg {
+      color: red;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .image-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px; /* spacing between images */
+      width: 600px; /* fixed width of the whole component */
+      margin: auto; /* center it horizontally on the page */
+    }
+
+    .image-row img {
+      width: 100%;     /* responsive within container */
+      max-width: 30vw; /* individual image max width */
+      height: auto;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .image-container {
+      flex: 1;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .image-row {
+        flex-direction: column;
+        width: 100%; /* full width on small screens */
+        align-items: center; /* center images vertically */
+      }
+
+      .image-container {
+        width: 80%; /* or 100%, depending on your preference */
+      }
+
+      .image-row img {
+        max-width: 100%; /* make sure images take full container width */
+      }
+
+      .floater {
+        max-width: 90%;
+      }
+    }
+    </style>
+
+    <script>
+        // load css files from CDN if local node_modules fail
+        function loadCssFromCDN(css) {
+            // create new link tag
+            const link = document.createElement('link');
+            if (css === 'animate.css') {
+                link.href = 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css';
+            } else if (css === 'font-awesome.css') {
+                link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css';
+            }
+            link.rel = 'stylesheet';
+
+            // add link tag to head section
+            document.getElementsByTagName('head')[0].appendChild(link);
+        }
+
+        // load js files from CDN if local node_modules fail
+        function loadJsFromCDN(js) {
+            if (js === 'waypoints.js') {
+                document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"><\/script>');
+            } else if (js === 'jquery.js') {
+                document.write('<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"><\/script>');
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/jquery.fancybox.css">
+    <link rel="stylesheet" href="css/flexslider.css">
+    <link rel="stylesheet" href="css/styles.min.css">
+    <link rel="stylesheet" href="css/queries.css">
+    <link rel="stylesheet" href="node_modules/animate.css/animate.min.css" onerror="loadCssFromCDN('animate.css')">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css" onerror="loadCssFromCDN('font-awesome.css')">
+    <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
-<body>
-<div class='figure'>
-	<img style="width:50vw" class='main image-main' src='static/brianmaliabw.jpg'/>
-	<img style="width:50vw" class='main image-hover' src='static/brianmaliacolor.jpg'/>
+<div id="passwordModal">
+    <img src="/img/lilo_flowers.gif"/> 
+  <h2 style="padding-left:10px; padding-right:10px;">Enter password to continue :)</h2>
+  <input type="password" id="passwordInput" placeholder="Password">
+  <button id="submitBtn" class="btn btn-accent btn-large rsvp-btn">Submit</button>
+  <div id="errorMsg">Incorrect password. Try again.</div>
 </div>
-<div class='content-main'>
-<text class='save-the-date title-text' style="color: pink; max-width:50px"> save the date </text>
-</div>
-<div style="text-align: center; padding: 15px">
-	<div style="margin-left:auto; margin-right:auto">
-		<text class="save-the-date subtitle-text" > green room • sf • 8.30.2025 </text>
-	</div>
-	<text class="save-the-date subtitle-text"> formal/black-tie </text>
-</div>
+<body id="top">
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<section class="hero">
+    <section class="navigation">
+        <header>
+            <div class="header-content">
+                <div class="logo"><a href="#"><img src="/oz.png" alt="Logo"></a></div>
+                <div class="header-nav">
+                    <nav>
+                        <ul class="primary-nav">
+                            <li><a href="#intro">How we met</a></li>
+                            <li><a href="#events">Events</a></li>
+                            <li><a href="#eng-pics">Engagement</a></li>
+                            <li class="hidden-sm hidden-xs"><a href="#video-bg">Glimpse of the city</a></li>
+                        </ul>
+                        <ul class="member-actions">
+                            <li><a href="#map" class="login">Venue</a></li>
+                            <li><a href="#rsvp" class="btn-white btn-small">RSVP</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="navicon">
+                    <a class="nav-toggle" href="#"><span></span></a>
+                </div>
+            </div>
+        </header>
+    </section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="hero-content text-center">
+                    <img src="/img/malia_brian_cursive_inline.png" style="filter: brightness(0) invert(1);" alt="Malia & Brian">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 hidden-xs"></div>
+            <div class="col-sm-4 hidden-xs text-center"><a href="#rsvp"
+                                                           class="btn btn-accent btn-large rsvp-btn">RSVP</a></div>
+            <div class="col-sm-4 hidden-xs"></div>
+        </div>
+    </div>
+    <div class="down-arrow floating-arrow"><a href="#invitation"><i class="fa fa-angle-down"></i></a></div>
+</section>
+
+<section id="invitation" style="padding-top:20px">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h3>Malia and Brian are getting married</h3>
+                <p>We are getting married on the 30<sup>th</sup> of August, come celebrate with us!</p>
+                <img class="floater" src="/img/floater.png" alt="">        
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-14 section-border section-padding"></div>
+        </div>
+    </div>
+</section>
+
+<section id="intro">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h3 class="header">How we met</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-14" style="align-items: center;">
+                <div class="image-row" style="padding: 20px 0">
+                  <div class="image-container">
+                    <img src="/img/IMG_3918.jpg" alt="">
+                  </div>
+                  <div class="image-container">
+                    <img src="/img/selfie.jpg" alt="">
+                  </div>
+                  <div class="image-container">
+                    <img src="/img/IMG_5432.jpg" alt="">
+                  </div>
+                </div>
+                <p>
+                    <b>Malia and Brian's story started on Hinge.</b> It was the start of the pandemic,<br/>
+                    while Brian was on the plane headed back to quarantine in New York, and Malia was stuck in San Francisco.
+                </p>
+                <p>
+                    Back then, the odds of meeting someone were low and the future of the world was uncertain.<br/>
+                    Brian was planning on moving back to New York at the time, but after countless facetimes with Malia, <br/>
+                    he had a feeling it would be a good idea to give the Bay Area another chance.
+                </p>
+                <p>
+                    Since then, they've managed to bring in an energetic and loving corgi into their lives, <br/>
+                    live on two coasts, and travel across the world. <br/>
+                    Together, they enjoy the comforts of everyday life while helping each other through the challenges associated with it.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="events section-padding" id="events">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="header">Events</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12 leftcol">
+                <div class="wp3">
+                    <h5>Ceremony <span class="time">5PM-5:30PM</span></h5>
+                    <p>Unfortunately, due to city restrictions, the ceremony is limited to only the bridal party and family. </p>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12 rightcol">
+                <div class="wp5">
+                    <h5>Cocktail Hour <span class="time">5:30-6:30PM</span></h5>
+                    <p>Come join us immediately after the ceremony for drinks and hor d'oeuvres on the loggia.</p>
+                </div>
+                <div class="wp4">
+                    <h5>Reception <span class="time">6:30PM-11PM</span></h5>
+                    <p>Following cocktail hour, we will have a buffet style dinner inside, accompanied by drinks, music and fun! </p>
+                </div>
+            </div>
+        </div>
+        <div class="row section-padding">
+            <div class="col-md-4 col-md-offset-4 text-center">
+                <a class="btn btn-accent btn-small" data-toggle="modal" data-target="#dc-modal">
+                    <i class="fa fa-barcode"></i>&nbsp;&nbsp;Dress code
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="dc-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span>
+                    </button>
+                    <h3 class="text-center section-padding">dress codes?</h3>
+                    <h5>Ceremony, Cocktail Hour & Reception <span class="time">5PM - 11PM</span></h5>
+                    <p>
+                        <strong>Black tie optional</strong>
+                        <br>
+                        We suggest wearing a dark suit or tuxedo for men, and a cocktail dress, evening gown, or midi-length dress for women.
+                    </p>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</section>
+
+<section id="eng-pics" class="section-padding">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h3 class="header">Engagement Pics</h3>
+            </div>
+        </div>
+        <div id="pics-container" class="row">
+        </div>
+    </div>
+</section>
+
+<section id="video-bg" class="hidden-sm hidden-xs">
+    <div id="bgndVideo" class="player"
+         data-property="{videoURL:'https://youtu.be/hanE_bysWro',containment:'#video-bg',autoPlay:true, mute:true, showControls:false, startAt:80, stopAt:110, opacity:1}">
+    </div>
+    <div id="video-content">
+        <h5>The Green Room</h5>
+        <p>San Francisco</p>
+    </div>
+</section>
+
+<section id="map" class="section-padding">
+    <div class="text-center">
+        <h3>How do I get there?</h3>
+        <p>Map</p>
+    </div>
+    <div id="map-img" style="position: relative;">
+        <div style="width: 100%; height: 400px; overflow: hidden;">
+            <img src="img/location.png" style="width: 100%; height: 100%; object-fit: cover; object-position: center;"/>
+        </div>
+        <div id="map-content-wrapper" style="position: absolute; top: 40px; left: 50vw; transform: translateX(-50%); z-index: 10; padding: 20px; width: wrap-content; pointer-events: auto;">
+            <div class="">
+                <div class="text-center" style="width:150px; margin-left:auto; margin-right:auto;">
+                    <div id="btn-show-content" class="toggle-map-content">
+                        <i class="fa fa-info-circle"></i>&nbsp;&nbsp; Show info
+                    </div>
+                </div>
+                <div id="map-content" style="margin-left:auto; margin-right:auto;">
+                    <div class="row">
+                        <div class="text-center">
+                            <h5>The Green Room</h5>
+                            <p>401 Van Ness Ave, San Francisco, CA 94102</p>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-md-13" style="padding: 5px;">
+                            <a class="btn btn-accent btn-small" id="btn-show-map"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Show
+                                map</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="qa-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span>
+                    </button>
+                    <h3 class="text-center section-padding">Q&A</h3>
+                    <p>
+                        <strong>Can I bring a plus one?</strong>
+                        <br>
+                        All guests will be specified on the invite. Unfortunately, due to capacity limits, we cannot accommodate any extra guests.
+                    </p>
+                    <p>
+                        <strong>Which events am I attending?</strong>
+                        <br>
+                        The only event that is restricted to wedding party/family only (due to the city restrictions mentioned above) is the ceremony. We'd love for everyone to celebrate with us during cocktail hour and the reception!
+                    </p>
+                    <p>
+                        <strong> Is there a gift registry? </strong>
+                        <br>
+                        Knowing that you traveled so far to celebrate our wedding is already more than enough, so we do not have a traditional gift registry! However, <a href="https://en.wikipedia.org/wiki/Red_envelope">red envelopes</a> will be accepted (though certainly not expected).
+                    </p>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+<section class="rsvp text-center" id="rsvp">
+    <div class="container">
+        <div id='q-and-a-button' class="row section-padding">
+            <div class="container-fluid">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <a class="btn btn-accent btn-small" data-toggle="modal" data-target="#qa-modal">
+                        Q & A
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+        <h1> RSVP coming soon! </h1>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 text-center content">
+                <span class="to-top-wrapper"><a href="#top" class="to-top"><i class="fa fa-angle-up"></i></a></span>
+                <p>Made by Brian with <span class="fa fa-heart pulse2"></span> for Malia</p>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="js/vendor/jquery-1.11.2.min.js" onerror="loadJsFromCDN('jquery.js')"></script>
+<script src="node_modules/waypoints/lib/jquery.waypoints.min.js" onerror="loadJsFromCDN('waypoints.js')"></script>
+<script src="js/jquery.fancybox.pack.js"></script>
+<script src="js/vendor/bootstrap.min.js"></script>
+<script src="js/jquery.flexslider-min.js"></script>
+<script src="js/jquery.mb.YTPlayer.min.js"></script>
+<script src="js/vendor/ouical.js"></script>
+<script src="js/scripts.min.js"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlPw3GQYI3faa_9mRE6plWuM7xNEmrwH0&callback=initMap"></script>
+<script>
+        const submitBtn = document.getElementById('submitBtn');
+        const passwordInput = document.getElementById('passwordInput');
+        const modal = document.getElementById('passwordModal');
+        const errorMsg = document.getElementById('errorMsg');
+
+        async function sha256(message) {
+          const encoder = new TextEncoder();
+          const data = encoder.encode(message);
+          const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+          const hashArray = Array.from(new Uint8Array(hashBuffer));
+          const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+          return hashHex;
+        }
+
+        function setCookie(name, value, days) {
+          const expires = new Date(Date.now() + days * 864e5).toUTCString(); // 864e5 = 24 * 60 * 60 * 1000
+          document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+        }
+
+        function getCookie(name) {
+          const cookies = document.cookie.split("; ");
+          for (let cookie of cookies) {
+            const [key, value] = cookie.split("=");
+            if (key === name) return decodeURIComponent(value);
+          }
+          return null;
+        }
+
+        const passwordHash = '500084cbde74b15dab056940ac8c7d6033894ae0f986850620f092bd53f27266';
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let inputPasswordHash = getCookie("malia-brian-hash");
+            if (inputPasswordHash === passwordHash) {
+                modal.style.display = 'none';
+            }
+        });
+
+        submitBtn.addEventListener('click', async () => {
+            const inputPasswordHash = await sha256(passwordInput.value);
+            if (inputPasswordHash === passwordHash) {
+                setCookie("malia-brian-hash", inputPasswordHash, 7);
+                modal.style.display = 'none';
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        });
+
+        let images = [
+            "DSCF8840.jpg",
+            "DSCF8377.jpg",
+            "DSCF8400.jpg",
+            "DSCF8458.jpg",
+            "DSCF8508.jpg",
+            "DSCF8598.jpg",
+            "DSCF8653.jpg",
+            "DSCF8658.jpg",
+            "DSCF8958.png",
+            "DSCF8786.jpg",
+            "DSCF8890.jpg",
+            "DSCF8904.jpg"
+        ];
+
+        const container = document.getElementById("pics-container");
+          images.forEach(img => {
+            container.innerHTML += `
+              <div class="col-md-2">
+                <a class="fancybox" rel="group" href="img/eng_pics/${img}">
+                  <div class="img-wrap">
+                    <div class="overlay">
+                        <i class="fa fa-search">
+                    </i></div>
+                    <img src="img/eng_pics/${img}" alt=""/>
+                  </div>
+                </a>
+              </div>`;
+          });
+
+      passwordInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') submitBtn.click();
+      });
+</script>
 </body>
 </html>
