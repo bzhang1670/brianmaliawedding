@@ -531,7 +531,7 @@
 
     // Add event listener for password modal
     document.addEventListener('DOMContentLoaded', function() {
-        if (modal) {
+        if (modal && modal.style.display !== 'none') {
             preventScroll();
             
             // Re-enable scroll when modal is hidden
