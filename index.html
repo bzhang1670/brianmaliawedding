@@ -148,7 +148,7 @@
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css" onerror="loadCssFromCDN('font-awesome.css')">
     <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
-<div id="passwordModal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #e7d1ff; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
+<div id="passwordModal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #e7d1ff; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow: hidden;">
     <img src="/img/lilo_flowers.gif" style="max-width: 100%; height: auto; margin-bottom: 20px;"/> 
     <h2 style="padding-left:10px; padding-right:10px; text-align: center;">Enter password to continue :)</h2>
     <input type="password" id="passwordInput" placeholder="Password" style="margin: 20px 0;">
@@ -157,7 +157,7 @@
 </div>
 <body id="top">
 <!--[if lt IE 8]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade
+<p class="browserupgrade">You are using an <strong>outdated</stroång> browser. Please <a href="https://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
 <![endif]-->
 <section class="hero">
@@ -514,6 +514,42 @@
       passwordInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') submitBtn.click();
       });
+
+    // Function to prevent scrolling
+    function preventScroll() {
+        document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.width = '100%';
+    }
+
+    // Function to enable scrolling
+    function enableScroll() {
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
+    }
+
+    // Add event listener for password modal
+    document.addEventListener('DOMContentLoaded', function() {
+        if (modal) {
+            preventScroll();
+            
+            // Re-enable scroll when modal is hidden
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                        if (modal.style.display === 'none') {
+                            enableScroll();
+                        } else {
+                            preventScroll();
+                        }
+                    }
+                });
+            });
+            
+            observer.observe(modal, { attributes: true });
+        }
+    });
 </script>
 </body>
 </html>
