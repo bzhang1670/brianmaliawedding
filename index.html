@@ -152,7 +152,7 @@
     <img src="/img/lilo_flowers.gif" style="max-width: 100%; height: auto; margin-bottom: 20px;"/> 
     <h2 style="padding-left:10px; padding-right:10px; text-align: center;">Enter password to continue :)</h2>
     <input type="password" id="passwordInput" placeholder="Password" style="margin: 20px 0;">
-    <button id="submitBtn" class="btn btn-accent btn-large rsvp-btn">Submit</button>
+    <button id="submitBtn" class="btn btn-accent btn-large">Submit</button>
     <div id="errorMsg" style="margin-top: 10px; color: red; display: none;">Incorrect password. Try again.</div>
 </div>
 <body id="top">
@@ -521,8 +521,19 @@
               </div>`;
           });
 
-      passwordInput.addEventListener('keypress', (e) => {
+      passwordInput.addEventListener('keyup', function(e) {
         if (e.key === 'Enter') submitBtn.click();
+        
+        // Light up button if input has text
+        if (passwordInput.value.length > 0) {
+            submitBtn.style.backgroundColor = '#e8ca6f';
+            submitBtn.style.color = 'white';
+            submitBtn.style.boxShadow = '0 0 10px #e8ca6f';
+        } else {
+            submitBtn.style.backgroundColor = '';
+            submitBtn.style.color = '';
+            submitBtn.style.boxShadow = '';
+        }
       });
 
     // Function to prevent scrolling
